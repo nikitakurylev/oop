@@ -1,3 +1,4 @@
+using Isu.Entities;
 using Isu.Services;
 using Isu.Tools;
 using NUnit.Framework;
@@ -7,18 +8,30 @@ namespace Isu.Tests
     public class Tests
     {
         private IIsuService _isuService;
+        private Group _m3205;
+        private Group _m3306;
+        private Student _nikita;
 
         [SetUp]
         public void Setup()
         {
-            //TODO: implement
-            _isuService = null;
+            _isuService = new IsuService(2);
+            _m3205 = _isuService.AddGroup("M3205");
+            _nikita = _isuService.AddStudent(_m3205, "Nikita Kurylev");
+            _m3306 = _isuService.AddGroup("M3306");
         }
 
         [Test]
         public void AddStudentToGroup_StudentHasGroupAndGroupContainsStudent()
         {
-            Assert.Fail();
+            Assert.Catch<IsuException>(() =>
+            {
+                _isuService.AddStudent(_m3205, "Nikita Kurylev");
+            });
+            Assert.Catch<IsuException>(() =>
+            {
+                _m3205.AddStudent(_nikita, 0);
+            });
         }
 
         [Test]
@@ -26,7 +39,8 @@ namespace Isu.Tests
         {
             Assert.Catch<IsuException>(() =>
             {
-                
+                _isuService.AddStudent(_m3205, "Maxim Rakov");
+                _isuService.AddStudent(_m3205, "Nikita Romanov");
             });
         }
 
@@ -35,7 +49,11 @@ namespace Isu.Tests
         {
             Assert.Catch<IsuException>(() =>
             {
-
+                _isuService.AddGroup("M3Z05");
+            });
+            Assert.Catch<IsuException>(() =>
+            {
+                _isuService.AddGroup("N4205");
             });
         }
 
@@ -44,7 +62,7 @@ namespace Isu.Tests
         {
             Assert.Catch<IsuException>(() =>
             {
-
+                _isuService.ChangeStudentGroup(_nikita, _m3306);
             });
         }
     }
