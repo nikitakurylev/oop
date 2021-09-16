@@ -61,7 +61,9 @@ namespace Isu.Entities
         private bool CheckName(string name, out int courseNumber)
         {
             courseNumber = 0;
-            return name[..2] == "M3" && int.TryParse(Name[1..], out courseNumber);
+            bool parseResult = int.TryParse(Name[1..], out courseNumber);
+            courseNumber /= 1000;
+            return name[..2] == "M3" && parseResult;
         }
 
         private bool StudentExists(Student student)
