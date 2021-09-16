@@ -11,5 +11,10 @@ namespace Isu.Entities
         public string Name { get; }
 
         public Group Group { get; set; }
+
+        public bool CanTransfer(Group group)
+        {
+            return group.CourseNumber == Group.CourseNumber;
+        }
     }
 }

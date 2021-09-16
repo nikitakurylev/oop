@@ -12,12 +12,10 @@ namespace Isu.Entities
         public Group(string name, int maxStudents)
         {
             Name = name;
-            if (name.Substring(0, 2) != "M3")
+            if (!CheckName(name, out int courseNumber))
                 throw new IsuException("Invalid group name!");
+            CourseNumber = new CourseNumber(courseNumber);
             _students = new Dictionary<int, Student>();
-            if (!int.TryParse(Name[1..], out int courseNumber))
-                throw new IsuException("Invalid group name!");
-            CourseNumber = new CourseNumber(courseNumber / 100);
             _maxStudents = maxStudents;
         }
 
@@ -29,9 +27,9 @@ namespace Isu.Entities
 
         public Student AddStudent(Student student, int id)
         {
-            if (_students.ContainsValue(student))
+            if (StudentExists(student))
                 throw new IsuException("This student is already in this group!");
-            if (_students.Count >= _maxStudents)
+            if (IsFull())
                 throw new IsuException("Student count exceeds limit!");
             student.Group = this;
             _students.Add(id, student);
@@ -58,6 +56,22 @@ namespace Isu.Entities
         public Student FindStudent(string name)
         {
             return _students.Values.ToList().Find(s => s.Name == name);
+        }
+
+        private bool CheckName(string name, out int courseNumber)
+        {
+            courseNumber = 0;
+            return name[..2] == "M3" && int.TryParse(Name[1..], out courseNumber);
+        }
+
+        private bool StudentExists(Student student)
+        {
+            return _students.ContainsValue(student);
+        }
+
+        private bool IsFull()
+        {
+            return _students.Count >= _maxStudents;
         }
     }
 }

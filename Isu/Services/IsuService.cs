@@ -85,7 +85,7 @@ namespace Isu.Services
 
         public void ChangeStudentGroup(Student student, Group newGroup)
         {
-            if (student.Group.CourseNumber != newGroup.CourseNumber)
+            if (!student.CanTransfer(newGroup))
                 throw new IsuException("Can't transfer between courses!");
             int id = student.Group.RemoveStudent(student);
             newGroup.AddStudent(student, id);

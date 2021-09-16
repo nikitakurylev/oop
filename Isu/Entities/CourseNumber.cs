@@ -1,3 +1,5 @@
+using Isu.Tools;
+
 namespace Isu.Entities
 {
     public class CourseNumber
@@ -11,13 +13,15 @@ namespace Isu.Entities
 
         private int Number
         {
-            get => _number;
             set
             {
-                if ((value > 0) && (value < 5))
+                if (value < 0 || value > 4)
                 {
-                    _number = value;
+                    throw new IsuException(
+                        $"{nameof(value)} must be between 0 and 4.");
                 }
+
+                _number = value;
             }
         }
     }
