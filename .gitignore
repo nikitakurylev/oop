@@ -361,3 +361,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 .idea/.idea.OopLabs/.idea/workspace.xml
+.idea/.idea.OopLabs/.idea/.name
+.idea/.idea.OopLabs/.idea/indexLayout.xml
+.idea/.idea.OopLabs/.idea/projectSettingsUpdater.xml
+.idea/.idea.OopLabs/.idea/vcs.xml

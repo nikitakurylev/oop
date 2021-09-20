@@ -15,7 +15,7 @@ namespace Isu.Entities
         {
             set
             {
-                if (value < 0 || value > 4)
+                if (value < 1 || value > 4)
                 {
                     throw new IsuException(
                         $"{nameof(value)} must be between 0 and 4.");
