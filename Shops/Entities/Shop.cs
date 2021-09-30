@@ -5,12 +5,12 @@ namespace Shops.Entities
     public class Shop
     {
         private Dictionary<Item, ItemInfo> _itemStock;
-        private Cheque _cheque;
-        public Shop(string shopName, string address, Cheque cheque)
+        private BankAccount _bankAccount;
+        public Shop(string shopName, string address, BankAccount bankAccount)
         {
             ShopName = shopName;
             Address = address;
-            _cheque = cheque;
+            _bankAccount = bankAccount;
             _itemStock = new Dictionary<Item, ItemInfo>();
         }
 
@@ -55,7 +55,7 @@ namespace Shops.Entities
             if (!CanOrder(order))
                 return false;
             float price = GetOrderPrice(order);
-            if (person.Transaction(_cheque, price))
+            if (person.Transaction(_bankAccount, price))
             {
                 foreach ((Item item, uint quantity) in order)
                 {
@@ -71,18 +71,7 @@ namespace Shops.Entities
 
         public bool Sell(Item item, uint quantity, Person person)
         {
-            if (!_itemStock.ContainsKey(item))
-                return false;
-            if (_itemStock[item].Count < quantity)
-                return false;
-            if (person.Transaction(_cheque, _itemStock[item].GetPrice(quantity)))
-            {
-                _itemStock[item].Obtain(quantity);
-                person.GiveItem(item, quantity);
-                return true;
-            }
-
-            return false;
+            return SellOrder(new Dictionary<Item, uint> { { item, quantity } }, person);
         }
 
         public ItemInfo GetItemInfo(Item item)

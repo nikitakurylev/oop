@@ -6,10 +6,10 @@ namespace Shops.Entities
     {
         private Dictionary<Item, uint> _items;
 
-        public Person(string name, Cheque cheque)
+        public Person(string name, BankAccount bankAccount)
         {
             Name = name;
-            Purse = cheque;
+            Purse = bankAccount;
             _items = new Dictionary<Item, uint>();
         }
 
@@ -17,12 +17,12 @@ namespace Shops.Entities
         {
             Name = name;
             _items = new Dictionary<Item, uint>();
-            Purse = new Cheque(money);
+            Purse = new BankAccount(money);
         }
 
         public float Money => Purse.Value;
         private string Name { get; }
-        private Cheque Purse { get; }
+        private BankAccount Purse { get; }
 
         public void GiveItem(Item item, uint quantity)
         {
@@ -32,9 +32,9 @@ namespace Shops.Entities
                 _items.Add(item, quantity);
         }
 
-        public bool Transaction(Cheque cheque, float amount)
+        public bool Transaction(BankAccount bankAccount, float amount)
         {
-            return Purse.Transaction(cheque, amount);
+            return Purse.Transaction(bankAccount, amount);
         }
     }
 }

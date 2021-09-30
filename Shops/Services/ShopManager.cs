@@ -6,10 +6,10 @@ namespace Shops.Services
     public class ShopManager
     {
         private List<Shop> _shops;
-        private Cheque _cheque;
+        private BankAccount _bankAccount;
         public ShopManager()
         {
-            _cheque = new Cheque();
+            _bankAccount = new BankAccount();
             _shops = new List<Shop>();
             ItemRegister = new HashSet<Item>();
         }
@@ -18,7 +18,7 @@ namespace Shops.Services
 
         public Shop Create(string name, string address)
         {
-            var shop = new Shop(name, address, _cheque);
+            var shop = new Shop(name, address, _bankAccount);
             _shops.Add(shop);
             return shop;
         }

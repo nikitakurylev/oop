@@ -1,9 +1,9 @@
 namespace Shops.Entities
 {
-    public class Cheque
+    public class BankAccount
     {
         private float _value;
-        public Cheque(float value = 0f)
+        public BankAccount(float value = 0f)
         {
             _value = value;
         }
@@ -15,12 +15,12 @@ namespace Shops.Entities
             _value += amount;
         }
 
-        public bool Transaction(Cheque cheque, float amount)
+        public bool Transaction(BankAccount bankAccount, float amount)
         {
             if (Value < amount)
                 return false;
             _value -= amount;
-            cheque.Deposit(amount);
+            bankAccount.Deposit(amount);
             return true;
         }
     }

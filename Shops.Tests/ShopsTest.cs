@@ -37,7 +37,7 @@ namespace Shops.Tests
         [TestCase(100, 200)]
         public void SetPrice(float price1, float price2)
         {
-            var shop = new Shop("", "", new Cheque());
+            var shop = new Shop("", "", new BankAccount());
             var item = new Item("");
             shop.SetPrice(item, price1);
             Assert.AreEqual(price1, shop.GetItemInfo(item).Price);
