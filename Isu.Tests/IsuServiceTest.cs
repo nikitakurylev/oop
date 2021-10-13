@@ -53,7 +53,7 @@ namespace Isu.Tests
             });
             Assert.Catch<IsuException>(() =>
             {
-                _isuService.AddGroup("N4205");
+                _isuService.AddGroup("NS205");
             });
         }
 

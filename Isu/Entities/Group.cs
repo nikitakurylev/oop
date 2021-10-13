@@ -63,7 +63,7 @@ namespace Isu.Entities
             courseNumber = 0;
             bool parseResult = int.TryParse(Name[1..], out courseNumber);
             courseNumber /= 1000;
-            return name[..2] == "M3" && parseResult;
+            return parseResult;
         }
 
         private bool StudentExists(Student student)
