@@ -2,13 +2,11 @@ namespace Backups.Entities
 {
     public class JobObject
     {
-        public JobObject(string name, string data)
+        public JobObject(string name)
         {
             Name = name;
-            Data = data;
         }
 
         public string Name { get; }
-        public string Data { get; }
     }
 }

@@ -17,7 +17,7 @@ namespace Backups.Entities
             _fileNames[number] = new HashSet<string>();
             foreach (JobObject jobObject in jobObjects)
             {
-                _repository.Write(GetNumberName(jobObject.Name, number), jobObject.Data);
+                _repository.Write(GetNumberName(jobObject.Name, number), jobObject.Name);
                 _fileNames[number].Add(jobObject.Name);
             }
         }
@@ -27,7 +27,7 @@ namespace Backups.Entities
             var jobObjects = new HashSet<JobObject>();
             foreach (string fileName in _fileNames[number])
             {
-                jobObjects.Add(new JobObject(fileName, _repository.Read(GetNumberName(fileName, number))));
+                jobObjects.Add(new JobObject(fileName));
             }
 
             return jobObjects;

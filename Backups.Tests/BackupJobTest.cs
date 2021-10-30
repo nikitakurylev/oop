@@ -12,8 +12,8 @@ namespace Backups.Tests
             var memoryRepository = new MemoryRepository();
             var splitStorage = new SplitStorage(memoryRepository);
             var backupJob = new BackupJob(splitStorage);
-            var jobObjectA = new JobObject("FileA", "DataA");
-            var jobObjectB = new JobObject("FileB", "DataB");
+            var jobObjectA = new JobObject("FileA");
+            var jobObjectB = new JobObject("FileB");
             backupJob.AddJobObject(jobObjectA);
             backupJob.AddJobObject(jobObjectB);
             backupJob.CreateRestorePoint();
@@ -30,8 +30,8 @@ namespace Backups.Tests
             var memoryRepository = new MemoryRepository();
             var singleStorage = new SingleStorage(memoryRepository);
             var backupJob = new BackupJob(singleStorage);
-            var jobObjectA = new JobObject("FileA", "DataA");
-            var jobObjectB = new JobObject("FileB", "DataB");
+            var jobObjectA = new JobObject("FileA");
+            var jobObjectB = new JobObject("FileB");
             backupJob.AddJobObject(jobObjectA);
             backupJob.AddJobObject(jobObjectB);
             backupJob.CreateRestorePoint();

@@ -15,7 +15,7 @@ namespace Backups.Entities
         {
             var files = new Dictionary<string, string>();
             foreach (JobObject jobObject in jobObjects)
-                files[jobObject.Name] = jobObject.Data;
+                files[jobObject.Name] = jobObject.Name;
             _repository.WriteArchive(number.ToString(), files);
         }
 
@@ -23,7 +23,7 @@ namespace Backups.Entities
         {
             var jobObjects = new HashSet<JobObject>();
             foreach ((string fileName, string data) in _repository.ReadArchive(number.ToString()))
-                jobObjects.Add(new JobObject(fileName, data));
+                jobObjects.Add(new JobObject(fileName));
 
             return jobObjects;
         }
