@@ -6,27 +6,31 @@ namespace Banks.Entities
 {
     public class Bank
     {
-        private readonly float _creditCommissionRate;
-        private readonly float _creditLimit;
-        private readonly float _suspiciousLimit;
-        private readonly float _debitRate;
-        private readonly HashSet<Client> _clients;
-        private readonly List<IAccount> _accounts;
+        private readonly double _creditCommissionRate;
+        private readonly double _creditLimit;
+        private readonly double _suspiciousLimit;
+        private readonly double _debitRate;
+        private readonly List<Account> _accounts;
         private readonly List<AccountTransaction> _transactions;
         private readonly SortedDictionary<double, double> _depositRates;
 
-        public Bank(SortedDictionary<double, double> depositRates, float creditCommissionRate, float suspiciousLimit, float creditLimit, float debitRate)
+        public Bank(string name, SortedDictionary<double, double> depositRates, double creditCommissionRate, double suspiciousLimit, double creditLimit, double debitRate)
         {
+            Name = name;
             _depositRates = depositRates;
             _creditCommissionRate = creditCommissionRate;
             _suspiciousLimit = suspiciousLimit;
             _creditLimit = creditLimit;
             _debitRate = debitRate;
             ClientBuilder = new ClientBuilder();
-            _clients = new HashSet<Client>();
-            _accounts = new List<IAccount>();
+            Clients = new HashSet<Client>();
+            _accounts = new List<Account>();
             _transactions = new List<AccountTransaction>();
         }
+
+        public HashSet<Client> Clients { get; }
+
+        public string Name { get; }
 
         private ClientBuilder ClientBuilder { get; set; }
 
@@ -34,7 +38,7 @@ namespace Banks.Entities
         {
             ClientBuilder.SetFullName(fullname);
             Client client = ClientBuilder.GetClient();
-            _clients.Add(client);
+            Clients.Add(client);
             return client;
         }
 
@@ -44,30 +48,33 @@ namespace Banks.Entities
             ClientBuilder.SetAddress(address);
             ClientBuilder.SetPassport(passport);
             Client client = ClientBuilder.GetClient();
-            _clients.Add(client);
+            Clients.Add(client);
             return client;
         }
 
         public DebitAccount CreateDebitAccount(Client client)
         {
-            _clients.Add(client);
+            Clients.Add(client);
             var debitAccount = new DebitAccount(client, _suspiciousLimit);
+            debitAccount.Transferred += OnTransfer;
             _accounts.Add(debitAccount);
             return debitAccount;
         }
 
         public DepositAccount CreateDepositAccount(Client client, TimeSpan term)
         {
-            _clients.Add(client);
+            Clients.Add(client);
             var depositAccount = new DepositAccount(client, _suspiciousLimit, term);
+            depositAccount.Transferred += OnTransfer;
             _accounts.Add(depositAccount);
             return depositAccount;
         }
 
         public CreditAccount CreateCreditAccount(Client client)
         {
-            _clients.Add(client);
+            Clients.Add(client);
             var creditAccount = new CreditAccount(client, _suspiciousLimit, _creditLimit);
+            creditAccount.Transferred += OnTransfer;
             _accounts.Add(creditAccount);
             return creditAccount;
         }
@@ -94,6 +101,21 @@ namespace Banks.Entities
         public void RevertLastTransaction()
         {
             RevertTransaction(_transactions.Last());
+        }
+
+        public Client FindClient(string name)
+        {
+            return Clients.ToList().Find(client => client.Fullname == name);
+        }
+
+        public bool HasClient(Client client)
+        {
+            return Clients.Contains(client);
+        }
+
+        public List<Account> GetAccountsOfClient(Client client)
+        {
+            return _accounts.FindAll(account => account.Client == client);
         }
 
         private void OnTransfer(AccountTransaction accountTransaction)

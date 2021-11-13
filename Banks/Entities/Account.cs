@@ -1,18 +1,19 @@
 namespace Banks.Entities
 {
-    public abstract class Account : IAccount
+    public abstract class Account
     {
-        private readonly Client _client;
         private readonly double _suspiciousLimit;
 
         protected Account(Client client, double suspiciousLimit)
         {
-            _client = client;
+            Client = client;
             _suspiciousLimit = suspiciousLimit;
             Balance = 0;
         }
 
         public event IAccount.AccountHandler<AccountTransaction> Transferred;
+
+        public Client Client { get; }
 
         public double Balance { get; protected set; }
 
@@ -25,7 +26,7 @@ namespace Banks.Entities
         {
             if (!CanTakeAmount(amount))
                 return false;
-            if (_client.IsSuspicious() && amount > _suspiciousLimit)
+            if (Client.IsSuspicious() && amount > _suspiciousLimit)
                 return false;
             Balance -= amount;
             return true;

@@ -8,7 +8,7 @@ namespace Banks.Entities
 
         public bool IsSuspicious()
         {
-            return Address == string.Empty || Passport == string.Empty;
+            return string.IsNullOrEmpty(Address) || string.IsNullOrEmpty(Passport);
         }
     }
 }
