@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace Backups.Entities
 {
@@ -46,7 +47,7 @@ namespace Backups.Entities
 
         public IEnumerable<string> GetFileNames()
         {
-            return Directory.GetFiles(_directory);
+            return Directory.GetFiles(_directory).Select(Path.GetFileName);
         }
 
         private string CreateTempDir()
