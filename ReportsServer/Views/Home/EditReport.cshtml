@@ -1,22 +1,40 @@
 @using ReportsServer.Models
 <h2>Edit report</h2>
 <h3>@ViewBag.Report.CreationDate</h3>
-<label>Attached reports:</label>
-<ul>
-    @if (ViewBag.AddedReports != null)
+
+@if (ViewBag.AddedReports != null)
+{
+    <label>Attached reports:</label>
+    <ul>
+    @foreach (var report in ViewBag.AddedReports)
     {
-        foreach (var report in ViewBag.AddedReports)
-        {
-            <li>
-                @report
-                <br/>
-            </li>
-        }
+        <li>
+            @report
+            <br/>
+        </li>
     }
-</ul>
+    </ul>
+}
+@if (ViewBag.AddedTasks != null)
+{
+    <label>Attached tasks:</label>
+    <ul>
+    @foreach (var task in ViewBag.AddedTasks)
+    {
+        <li>
+            @task
+            <br/>
+        </li>
+    }
+    </ul>
+}
 @if (!ViewBag.Report.State && ViewBag.Report.Creator == ViewBag.CurrentUser)
 {
     <form method="post" action="~/Home/EditReport" id="editReportForm" runat="server">
+        <label>Choose tasks:</label>
+        <input type="hidden" name="uid" value="@ViewBag.Report.Uid"/>
+        @Html.ListBox("tasks", new MultiSelectList(ViewBag.Tasks))<br>
+        <label>Choose reports:</label>
         <input type="hidden" name="uid" value="@ViewBag.Report.Uid"/>
         @Html.ListBox("reports", new MultiSelectList(ViewBag.Reports))<br>
         <input type="submit" name="action" value="Save"/>

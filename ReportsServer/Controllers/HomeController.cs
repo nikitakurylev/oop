@@ -143,15 +143,12 @@ namespace ReportsServer.Controllers
             ViewBag.CurrentUser = session.Username;
             Report report = _reports.Get(uid);
             ViewBag.Report = report;
-            ViewBag.AddedReports = _reports.GetAll(r => report.Reports.Contains(r.Uid))
-                .Select(r => r.Creator + " - " + r.CreationDate);
-            ViewBag.Reports = _reports.GetAll(r => _users.Get(r.Creator).Boss == report.Creator && r.State)
-                .Select(r => r.Uid + ": " +  r.Creator + " - " + r.CreationDate);
+            MakeReportView(report);
             return View();
         }
 
         [HttpPost]
-        public ActionResult EditReport(string uid, string[] reports, string action)
+        public ActionResult EditReport(string uid, string[] reports, string[] tasks, string action)
         {
             Session session = RestoreSession();
             if (!ViewBag.LoginSuccessfull)
@@ -159,6 +156,8 @@ namespace ReportsServer.Controllers
             Report report = _reports.Get(uid);
             if(reports != null)
                 report.Reports = reports.Select(r => r.Split(':')[0]).ToList();
+            if(tasks != null)
+                report.Tasks = tasks.Select(r => r.Split(':')[0]).ToList();
             if (action == "Submit")
                 report.State = true;
             _reports.Update(report);
@@ -166,10 +165,9 @@ namespace ReportsServer.Controllers
             ViewBag.Report = report;
 
             ViewBag.CurrentUser = session.Username;
-            ViewBag.AddedReports = _reports.GetAll(r => report.Reports.Contains(r.Uid))
-                .Select(r => r.Creator + " - " + r.CreationDate);
-            ViewBag.Reports = _reports.GetAll(r => _users.Get(r.Creator).Boss == report.Creator && r.State)
-                .Select(r => r.Uid + ": " +  r.Creator + " - " + r.CreationDate);
+            
+            MakeReportView(report);
+            
             return View();
         }
 
@@ -267,6 +265,19 @@ namespace ReportsServer.Controllers
             _sessions.Create(new Session(login));
             Response.Cookies.Add(new HttpCookie("session", session.Uid));
             ViewBag.LoginSuccessfull = true;
+        }
+
+        private void MakeReportView(Report report)
+        {
+            ViewBag.AddedReports = _reports.GetAll(r => report.Reports.Contains(r.Uid))
+                .Select(r => r.Creator + " - " + r.CreationDate);
+            ViewBag.Reports = _reports.GetAll(r => _users.Get(r.Creator).Boss == report.Creator && r.State)
+                .Select(r => r.Uid + ": " +  r.Creator + " - " + r.CreationDate);
+
+            ViewBag.AddedTasks = _tasks.GetAll(t => report.Tasks.Contains(t.Uid))
+                .Select(t => t.Title + " - " + t.CreationDate);
+            ViewBag.Tasks = _tasks.GetAll(t => t.Creator == report.Creator)
+                .Select(t => t.Uid + ": " +  t.Title + " - " + t.State);
         }
     }
     
