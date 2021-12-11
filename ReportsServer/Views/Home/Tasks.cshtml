@@ -1,0 +1,32 @@
+<h2>Tasks</h2>
+<br>
+<form method="post" action="~/Home/Tasks" id="newTaskForm" runat="server">
+    <input type="text" name="name" placeholder="New task"/>
+    <input type="submit" value="Create"/>
+</form>
+<br>
+<table style="width:100%">
+    <tr>
+        <td>Status</td>
+        <td>Title</td>
+        <td>Creator</td>
+        <td>Creation date</td>
+        <td>Last changes date</td>
+    </tr>
+    @foreach (var task in ViewBag.Tasks)
+    {
+        <tr>
+            <td>@task.State</td>
+            <td>@task.Title</td>
+            <td><a runat="server" href="~/Home/U?uid=@task.Creator"> @task.Creator</a></td>
+            <td>@task.CreationDate</td>
+            <td>@task.LastChangedDate</td>
+            <td>
+            <form method="get" action="~/Home/Edit" id="editForm" runat="server">
+                <input type="hidden" name="uid" value="@task.Uid"/>
+                <input type="submit" value="edit"/>
+            </form>
+            </td>
+        </tr>
+    }
+</table>

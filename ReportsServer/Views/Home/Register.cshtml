@@ -1,0 +1,19 @@
+<h2>Register</h2>
+<h3>@ViewBag.Message</h3>
+@if (!ViewBag.LoginSuccessfull)
+{
+    <form method="post" action="~/Home/Register" id="registerForm" runat="server">
+        <label>Login:</label><br/>
+        <input type="text" name="login"/><br/>
+        <label>Your boss:</label><br/>
+        <select name="boss">
+            @foreach (var username in ViewBag.Usernames)
+            {
+                <option value="@username">@username</option>
+            }
+        </select> <br>
+        <label>Password:</label><br/>
+        <input type="password" name="password"/><br/>
+        <input type="submit" value="Register"/>
+    </form>
+}

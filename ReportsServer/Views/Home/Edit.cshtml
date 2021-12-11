@@ -1,0 +1,12 @@
+<h2>Edit task</h2>
+
+<form method="post" action="~/Home/Edit" id="editForm" runat="server">
+    <input type="hidden" name="uid" value="@ViewBag.Task.Uid"/>
+    <input type="text" name="title" value="@ViewBag.Task.Title"/><br/>
+    <select name="status">
+        <option value="0">Open</option>
+        <option value="1">Active</option>
+        <option value="2">Resolved</option>
+    </select> <br>
+    <input type="submit" value="Save"/>
+</form>
