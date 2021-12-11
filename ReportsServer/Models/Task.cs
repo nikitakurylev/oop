@@ -4,12 +4,7 @@ namespace ReportsServer.Models
 {
     public class Task : IModel
     {
-        public enum TaskState
-        {
-            Open,
-            Active,
-            Resolved
-        }
+
 
         public string Uid { get; set; }
         public string Title { get; set; }

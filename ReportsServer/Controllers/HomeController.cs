@@ -38,7 +38,7 @@ namespace ReportsServer.Controllers
         }
 
         [HttpGet]
-        public ActionResult U(string uid)
+        public ActionResult GetUser(string uid)
         {
             RestoreSession();
             if (!ViewBag.LoginSuccessfull)
@@ -61,7 +61,7 @@ namespace ReportsServer.Controllers
             {
                 Uid = _tasks.GetAll().Count.ToString(), 
                 Title = name, 
-                State = Task.TaskState.Open,
+                State = TaskState.Open,
                 Creator = session.Username, 
                 CreationDate = DateTime.Now,
                 LastChangedDate = DateTime.Now
@@ -90,7 +90,7 @@ namespace ReportsServer.Controllers
                 return View();
             Task task = _tasks.Get(uid);
             task.Title = title;
-            task.State = (Task.TaskState) int.Parse(status);
+            task.State = (TaskState) int.Parse(status);
             task.LastChangedDate = DateTime.Now;
             _tasks.Update(task);
             ViewBag.Task = _tasks.Get(uid);

@@ -157,6 +157,7 @@
         <Compile Include="Controllers\HomeController.cs" />
         <Compile Include="Entities\IDatabase.cs" />
         <Compile Include="Entities\JsonDatabase.cs" />
+        <Compile Include="Entities\ReportService.cs" />
         <Compile Include="Global.asax.cs">
             <DependentUpon>Global.asax</DependentUpon>
         </Compile>
@@ -164,6 +165,7 @@
         <Compile Include="Models\Report.cs" />
         <Compile Include="Models\Session.cs" />
         <Compile Include="Models\Task.cs" />
+        <Compile Include="Models\TaskState.cs" />
         <Compile Include="Models\User.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
@@ -196,7 +198,7 @@
         <Content Include="Views\Home\Register.cshtml" />
         <Content Include="Views\Home\Reports.cshtml" />
         <Content Include="Views\Home\Tasks.cshtml" />
-        <Content Include="Views\Home\U.cshtml" />
+        <Content Include="Views\Home\GetUser.cshtml" />
         <Content Include="Web.config" />
         <Content Include="Web.Debug.config">
             <DependentUpon>Web.config</DependentUpon>

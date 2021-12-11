@@ -1,0 +1,10 @@
+<h2>@ViewBag.User.Uid</h2>
+<label>Boss:</label><br/>
+<p><a runat="server" href="~/Home/GetUser?uid=@ViewBag.User.Boss"> @ViewBag.User.Boss</a></p>
+<label>Subordinates:</label><br/>
+<p>
+@foreach (var user in ViewBag.Subordinates)
+{
+    <a runat="server" href="~/Home/GetUser?uid=@user">@user </a> 
+}
+</p>
