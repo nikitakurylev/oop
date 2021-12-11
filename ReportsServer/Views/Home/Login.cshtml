@@ -1,0 +1,21 @@
+<h2>Login</h2>
+<h3>@ViewBag.Message</h3>
+
+@if (!ViewBag.LoginSuccessfull)
+{
+    <form method="post" action="~/Home/Login" id="loginForm" runat="server">
+        <label>Login:</label><br/>
+        <input type="text" name="login"/><br/>
+        <label>Password:</label><br/>
+        <input type="password" name="password"/><br/>
+        <a href="~/Home/Register">Register</a>
+        <input type="submit" value="Log in"/>
+    </form>
+}
+else
+{
+    /*<form method="post" action="~/Home/Logout" id="logoutForm" runat="server">
+        <button name="logout" value="logout">log out</button>
+    </form>*/
+    <a href="~/Home/Logout">Log out</a>
+}

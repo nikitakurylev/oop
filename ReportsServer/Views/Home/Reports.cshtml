@@ -1,0 +1,35 @@
+<h2>Reports</h2>
+<br>
+<form method="post" action="~/Home/Reports" id="newReportForm" runat="server">
+    <input type="hidden" name="action" value="create"/>
+    <input type="submit" value="Create a new report"/>
+</form>
+<br>
+<table style="width:100%">
+    <tr>
+        <td>Status</td>
+        <td>Creator</td>
+        <td>Creation date</td>
+    </tr>
+    @foreach (var report in ViewBag.Reports)
+    {
+        <tr>
+            <td>@if (report.State)
+                {
+                    <p>Submitted</p>
+                }
+                else
+                {
+                    <p>Draft</p>
+                }</td>
+            <td><a runat="server" href="~/Home/U?uid=@report.Creator"> @report.Creator</a></td>
+            <td>@report.CreationDate</td>
+            <td>
+                <form method="get" action="~/Home/EditReport" id="editForm" runat="server">
+                    <input type="hidden" name="uid" value="@report.Uid"/>
+                    <input type="submit" value="edit"/>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
